@@ -1,0 +1,7 @@
+<%= simple_form_for @product do |detail| %>
+  <%= detail.input :name, label: "Products name" %>
+  <%= detail.input :description , label: "Description" %>
+  <%= detail.input :price, label: "Price" %>
+  <%= detail.input :image_filename, label: "Image file name" %>
+  <%= detail.submit "Add product" %>
+<% end %>

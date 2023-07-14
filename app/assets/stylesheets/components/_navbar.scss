@@ -1,0 +1,30 @@
+.navbar-lewagon {
+  justify-content: space-between;
+  background: white;
+  width: 100%;
+}
+
+.navbar-lewagon .navbar-collapse {
+  flex-grow: 0;
+}
+
+.navbar-lewagon .navbar-brand img {
+  width: 40px;
+}
+
+.navbar-lewagon .button-style {
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  /* For screens up to 576px, this CSS will be applied */
+  .navbar-lewagon .list-unstyled {
+    margin-left: 0;
+    padding-top: 20px;
+  }
+
+  .navbar-lewagon .nav-item {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
