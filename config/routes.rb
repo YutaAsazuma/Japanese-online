@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :products
+  resources :types
 
-  post "products", to: "products#create"
+  # post "products", to: "products#create"
 
 end

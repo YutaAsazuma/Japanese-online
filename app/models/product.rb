@@ -1,3 +1,4 @@
 class Product < ApplicationRecord
-  belong_to :type
+  belongs_to :type
+  attachment :product_image
 end

@@ -2,6 +2,8 @@
   <%= detail.input :name, label: "Products name" %>
   <%= detail.input :description , label: "Description" %>
   <%= detail.input :price, label: "Price" %>
-  <%= detail.input :image_filename, label: "Image file name" %>
+  <%= detail.input :category, label: "category" %>
+  <%= attachment_image_tag @product, :product_image, fallback: "no-image.png", id: "img_prev", style: "height: 250px; width:300px;" %>
+  <%= detail.file_field :product_image %>
   <%= detail.submit "Add product" %>
 <% end %>
