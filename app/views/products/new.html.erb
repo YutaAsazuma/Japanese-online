@@ -2,6 +2,7 @@
   <%= detail.input :name, label: "Products name" %>
   <%= detail.input :description , label: "Description" %>
   <%= detail.input :price, label: "Price" %>
-  <%= detail.input :image_filename, label: "Image file name" %>
+  <%= detail.collection_select :type_id, Type.all, :id, :name, prompt: 'Select a type' %>
+  <%= detail.file_field :images, multiple: true, accept: "image/*" %>
   <%= detail.submit "Add product" %>
 <% end %>
