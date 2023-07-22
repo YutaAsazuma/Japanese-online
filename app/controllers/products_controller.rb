@@ -1,11 +1,11 @@
 class ProductsController < ApplicationController
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @product = Product.all
+    @products = Product.all
   end
 
   def show
-    @product = Product.find(params[:id])
   end
 
   def new
@@ -14,14 +14,41 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    @product.save
+    respond_to do |format|
+      if @product.save
 
-    redirect_to product_path(@product)
+        format.html { redirect_to product_path(@product), notice: "Product was created" }
+        format.json { render :show, status: :created, location: @product }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @product.update(product_params)
+      redirect_to @product, notice: 'Product was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @product.destroy
+    redirect_to products_url, notice: 'Product was successfully destroyed.'
   end
 
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :category, :product_image)
+    params.require(:product).permit(:name, :description, :price, :type_id, images: [])
+  end
+
+  def set_product
+    @product = Product.find(params[:id])
   end
 end

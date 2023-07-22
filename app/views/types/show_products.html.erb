@@ -1,0 +1,18 @@
+<ul>
+  <% if @products.present? %>
+    <% @products.each do |product| %>
+      <li>
+        <% if product.images.present? %>
+          <% product.images.each do |image| %>
+            <%= image_tag image.url %>
+          <% end %>
+        <% else %>
+          <p>No images</p>
+        <% end %>
+        <%= product.name %>  <%= product.description %>  <%= product.price %>
+      </li>
+    <% end %>
+  <% else %>
+    <p>No items founded</p>
+  <% end %>
+</ul>

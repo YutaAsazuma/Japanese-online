@@ -1,7 +1,6 @@
-<%= @products each do |product| %>
-  <%= if product.category == "Yukata" %>
-    <%= product.image_filename %>
+<% @products.each do |product| %>
     <%= product.name %>
+    <%= product.product_images %>
     <%= product.description %>
     <%= product.price %>
 <% end %>
