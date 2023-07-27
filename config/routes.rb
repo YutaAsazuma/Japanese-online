@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   end
   # post "products", to: "products#create"
   resources :products
+  resources :favorites
 end

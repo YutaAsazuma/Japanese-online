@@ -27,6 +27,7 @@ class TypesController < ApplicationController
   def show_products
     @type = Type.find(params[:id])
     @products = @type.product
+    @favorite_exists = Favorite.where(product: @product, user: current_user) == [] ? false : true
     # @product = Product.find(params[:id])
   end
 

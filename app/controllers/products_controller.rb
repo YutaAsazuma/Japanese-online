@@ -1,11 +1,13 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index]
 
   def index
     @products = Product.all
   end
 
   def show
+    @favorite_exists = Favorite.where(product: @product, user: current_user) == [] ? false : true
   end
 
   def new

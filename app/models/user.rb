@@ -5,8 +5,4 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :favorite, dependent: :destroy
-
-  def favorited?
-    product.users.included?(self)
-  end
 end
