@@ -10,8 +10,8 @@ Rails.application.routes.draw do
     member do
       get :show_products
     end
-    resources :products, only: [:show]
   end
   # post "products", to: "products#create"
   resources :products
+  resources :favorites
 end
