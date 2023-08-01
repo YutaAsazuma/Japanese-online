@@ -2,10 +2,12 @@ class TypesController < ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   def index
-    @types = Type.all
+    @types = Type.all.as_json(only: [:id, :name])
+    p @types 
   end
 
   def show
+    render json: { type: @type, product: @type.product}
   end
 
   def edit
@@ -28,6 +30,7 @@ class TypesController < ApplicationController
     @type = Type.find(params[:id])
     @products = @type.product
     @favorite_exists = Favorite.where(product: @product, user: current_user) == [] ? false : true
+    render json: { products: @products, favorite_exists: @favorite_exists }
     # @product = Product.find(params[:id])
   end
 

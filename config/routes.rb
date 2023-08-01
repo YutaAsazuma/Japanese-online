@@ -5,13 +5,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-
   resources :types, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     member do
       get :show_products
     end
   end
-  # post "products", to: "products#create"
+
   resources :products
   resources :favorites
 end
