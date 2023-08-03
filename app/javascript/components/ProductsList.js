@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const ProductList = ({ products }) => {
   return (
@@ -7,8 +7,8 @@ const ProductList = ({ products }) => {
         products.map((product) => (
           <li key={product.id}>
             {product.images.length > 0 ? (
-              product.images.map((image) => (
-                <img key={image.id} src={image.url} alt={product.name} />
+              product.images.map((image, index) => (
+                <img key={index} src={image.url} alt={product.name} />
               ))
             ) : (
               <p>No images</p>

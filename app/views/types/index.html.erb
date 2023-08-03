@@ -1,3 +1,1 @@
-<% @types.each do |type| %>
-  <%= link_to type.name, show_products_type_path(type) %>
-<% end %>
+<%= react_component('TypeList', { types: @types }) %>

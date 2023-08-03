@@ -4,10 +4,12 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
+    render json: @products
   end
 
   def show
     @favorite_exists = Favorite.where(product: @product, user: current_user) == [] ? false : true
+    render json: { product: @product, favorite_exists: @favorite_exists }
   end
 
   def new
