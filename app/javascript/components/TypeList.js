@@ -1,17 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
+import axios from 'axios';
+import { styled } from 'styled-components';
 
-const TypeList = ({ types }) => {
-  console.log(types)
+function TypeList() {
+  const [types, setTypes] = useState([])
+
+  useEffect(() => {
+    axios.get('/api/v1/types.json')
+    .then(resp => {
+      console.log(resp.data);
+      setTypes(resp.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  }, [])
+
   return (
     <div>
-      {types.map((type) => (
-        <div key={type.id}>
-          <a href={`/types/${type.id}`}>{type.name}</a>
-        </div>
-      ))}
+      <h1>Discover items</h1>
+      <ul>
+        {types.map((type, index) => (
+          <li key={index}>
+            <Link to={`/types/${type.id}/show_products`}>{type.name}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
-  );
-};
+  )
+}
+
+
+
 
 export default TypeList;

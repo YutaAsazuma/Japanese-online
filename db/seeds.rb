@@ -6,6 +6,9 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Type.create(name: "Kitchin")
-Type.create(name: "Shokki")
-Type.create(name: "houchou")
+Type.create(name: "Tableware")
+Type.create(name: "Knives")
+Type.create(name: "Cosmetic")
+Type.create(name: "Used clothes from Japan")
+
+Product.create(name: "Nihon Houchou", description: "sharp", price: 200, type_id: 13)

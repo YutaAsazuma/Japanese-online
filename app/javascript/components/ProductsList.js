@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"
+import axios from 'axios';
 
-const ProductList = ({ products }) => {
+const ProductList = () => {
+  let { id } = useParams();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get(`/api/v1/types/${id}/show_products`)
+    .then(resp => {
+      setProducts(resp.data);
+    })
+    .catch(error => {
+      console.log("Error fetching products:", error);
+    });
+  }, [id])
+
   return (
     <ul>
       {products.length > 0 ? (
