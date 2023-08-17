@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: "production",
@@ -18,7 +19,8 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     }),
-    new WebpackManifestPlugin()
+    new WebpackManifestPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
@@ -29,9 +31,18 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
     ],
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },
+  node: {
+    __dirname: false,
+    __filename: false,
+    global: true
+  }
 };

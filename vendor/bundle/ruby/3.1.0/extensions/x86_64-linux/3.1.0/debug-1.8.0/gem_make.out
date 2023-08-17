@@ -1,0 +1,16 @@
+current directory: /home/yuta/code/YutaAsazuma/Japanese-online/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+/home/yuta/.rbenv/versions/3.1.2/bin/ruby -I /home/yuta/.rbenv/versions/3.1.2/lib/ruby/3.1.0 -r ./siteconf20230814-9105-4oegdf.rb extconf.rb
+creating Makefile
+
+current directory: /home/yuta/code/YutaAsazuma/Japanese-online/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= clean
+
+current directory: /home/yuta/code/YutaAsazuma/Japanese-online/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\=
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/yuta/code/YutaAsazuma/Japanese-online/vendor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20230814-9105-3qgqvt/debug
