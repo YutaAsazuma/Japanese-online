@@ -1,28 +1,115 @@
-import React from "react";
+import React, { useState, useContext }  from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import styled from 'styled-components';
-import axios from "axios"
 import TypeList from "./TypeList";
 import ProductList from "./ProductsList";
+import UserContext from "./UserContext";
+import Login from "./Login";
+import Container from 'react-bootstrap/Container';
+import './App.css'
 
-function HomePage() {
+const Navbar = styled.nav`
+  background: #dbfffe;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`
+
+const Logo = styled.div`
+  font-weight: bold;
+  font-size: 23px;
+  letter-spacing: 3px;
+`
+
+const NavItems = styled.ul`
+  display: flex;
+  width: 400px;
+  max-width: 40%;
+  justify-content: space-around;
+  list-style: none;
+`
+
+const NavItem = styled.li`
+  font-size: 19px;
+  font-weight: bold;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
+`
+
+const Wrapper = styled.div`
+  width: 700px;
+  max-width: 85%;
+  margin: 20px auto;
+`
+
+const Nav = () => {
+  const { user } =  useContext(UserContext);
   return (
-    <div>
-      <h1>Products explanation</h1>
-      <Link to="/types">Our Products</Link>
-    </div>
+    <Navbar>
+      <Logo>
+        NihhonLine
+      </Logo>
+      <NavItems>
+        <NavItem>
+          <Link to="/">Home</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/">Favorite</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/">Ordered</Link>
+        </NavItem>
+        {!user ?
+          (
+            <>
+              <NavItem>
+                <Link to="/users/sign_in">Login</Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/users/sign_up">Sign up</Link>
+              </NavItem>
+            </>
+          ) :
+            (<NavItem>
+              <Link to="/">Logout</Link>
+            </NavItem>)
+        }
+      </NavItems>
+    </Navbar>
+  )
+}
+
+const HomePage = () => {
+  return (
+    <Container>
+      <Container>
+        <h1>Products explanation</h1>
+      </Container>
+      <Container>
+        <Link to="/types">Our Products</Link>
+      </Container>
+    </Container>
   );
 }
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/types" element={<TypeList />} />
-        <Route path="/types/:id/show_products" element={<ProductList />}/>
-      </Routes>
-    </div>
+    <>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Nav />
+        <div>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/types" element={<TypeList />} />
+            <Route path="/types/:id/show_products" element={<ProductList />}/>
+            <Route path="/users/sign_in" element={<Login />}/>
+          </Routes>
+        </div>
+      </UserContext.Provider>
+    </>
   )
 }
 

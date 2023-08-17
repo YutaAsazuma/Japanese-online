@@ -12,3 +12,4 @@ Type.create(name: "Cosmetic")
 Type.create(name: "Used clothes from Japan")
 
 Product.create(name: "Nihon Houchou", description: "sharp", price: 200, type_id: 13)
+

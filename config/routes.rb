@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
+  namespace :admin do
+    resources :sessions, only: [:new, :create, :destroy]
+  end
+  devise_for :users, controllers: { sessions: 'sessions'}
   root to: 'site#index'
 
   get 'types', to: 'site#index'
