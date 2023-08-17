@@ -23,3 +23,11 @@ a {
 input:focus {
   outline: 0;
 }
+
+.logout-message {
+  color: #25f725;
+  padding: 10px;
+  text-align: right;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
