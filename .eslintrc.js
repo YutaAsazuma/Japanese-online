@@ -5,6 +5,7 @@ module.exports = {
         "es2021": true
     },
     "extends": "airbnb-base",
+    "extends": ["@salesforce/eslint-config-lwc/recommended"],
     "overrides": [
         {
             "env": {
@@ -14,7 +15,8 @@ module.exports = {
                 ".eslintrc.{js,cjs}"
             ],
             "parserOptions": {
-                "sourceType": "script"
+              "sourceType": "module",
+              "sourceType": "script"
             }
         }
     ],

@@ -28,6 +28,9 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 
 
+group :development do
+  gem 'letter_opener'
+end
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

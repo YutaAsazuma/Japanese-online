@@ -12,4 +12,11 @@ Type.create(name: "Cosmetic")
 Type.create(name: "Used clothes from Japan")
 
 Product.create(name: "Nihon Houchou", description: "sharp", price: 200, type_id: 13)
+User.find_or_create_by!(email: "asa14151415@gmail.com") do |user|
+  user.password = "222222"
+end
 
+User.find_or_create_by!(email: "asa@gmail.com") do |user|
+  user.password = "222222"
+  user.admin = true
+end

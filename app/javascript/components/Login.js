@@ -4,26 +4,38 @@ import UserContext from "./UserContext";
 import { useNavigate } from "react-router-dom"
 
 const Login = () => {
-  const { setUser } = useContext(UserContext);
+  const { setIsAdmin, handleLogin } = useContext(UserContext);
   const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ errorMessage, setErrorMessage ] = useState();
 
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-  const handleLogin = (event) => {
+  const submitLogin = (event) => {
     event.preventDefault();
     const userData = { email: email, password: password };
-    axios.post('/users/sign_in', userData, {
+    axios.post('/auth/sign_in', userData, {
       headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
       }
     })
     .then(response => {
-      setUser(response.data);
+      console.log(response.data);
+      const receivedData = response.data.data;
+      const accessToken = response.headers['access-token'];
+      const client = response.headers['client'];
+      const uid = response.headers['uid'];
+
+      localStorage.setItem('access-token', accessToken);
+      localStorage.setItem('client', client);
+      localStorage.setItem('uid', uid);
+
+      handleLogin({
+        user: receivedData,
+        admin: receivedData.admin ? true : false
+      });
       navigate('/')
     })
     .catch(error => {
@@ -36,7 +48,7 @@ const Login = () => {
     <div className="login-wrapper">
       <h1>Log in</h1>
       {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={submitLogin}>
         <label>
           <p>Email</p>
           <input type="text" onChange={e => setEmail(e.target.value)}/>
