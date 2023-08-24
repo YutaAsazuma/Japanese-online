@@ -21,7 +21,12 @@ Rails.application.routes.draw do
           get :show_products
         end
       end
-      resources :products, only: %i[index show create]
+      resources :products, only: %i[index create]
+      resources :products, only: :show do
+        resources :favorite, only: :create
+      end
+      resources :products, only: :destroy
+      resources :favorites, only: :destroy
     end
   end
 end

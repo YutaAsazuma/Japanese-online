@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   validates :type_id, presence: true
+  has_many :favorite, dependent: :destroy
   belongs_to :type
   mount_uploaders :images, ImageUploader
   serialize :images, JSON

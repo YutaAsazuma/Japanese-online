@@ -115,7 +115,7 @@ const Nav = ({ handleLogout }) => {
           <Link to="/">Favorite</Link>
         </NavItem>
         <NavItem onClick={() => setIsDropdownOpen(false)}>
-          <Link to="/">Ordered</Link>
+          <Link to="/">Cart</Link>
         </NavItem>
         {!user ?
           (
