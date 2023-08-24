@@ -7,7 +7,13 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/v1/types/${id}/show_products`)
+    axios.get(`/api/v1/types/${id}/show_products`, {
+      headers: {
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    })
     .then(resp => {
       setProducts(resp.data);
     })
@@ -31,6 +37,7 @@ const ProductList = () => {
             <p>{product.name}</p>
             <p>{product.description}</p>
             <p>{product.price}</p>
+            <p>{product.amount_of_stocks}</p>
           </li>
         ))
       ) : (

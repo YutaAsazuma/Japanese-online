@@ -18,6 +18,10 @@ module JapaneseOmline
 
     config.load_defaults 7.0
 
+    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('app/controllers/overrides')
+    config.autoloader = :classic
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

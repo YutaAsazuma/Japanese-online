@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_16_100916) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_22_051113) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,12 +35,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_100916) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.boolean "in_stok"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "price"
     t.bigint "type_id"
     t.text "images"
+    t.integer "amount_of_stocks", default: 0
     t.index ["type_id"], name: "index_products_on_type_id"
   end
 
@@ -65,10 +65,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_100916) do
     t.string "phoneNumber"
     t.string "name"
     t.boolean "admin"
-    t.string "provider"
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.boolean "allow_password_change", default: false
+    t.string "nickname"
+    t.string "image"
+    t.json "tokens"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "favorites", "products"
