@@ -21,7 +21,7 @@ Rails.application.routes.draw do
           get :show_products
         end
       end
-      resources :products, only: %i[index show new create]
+      resources :products, only: %i[index show create]
     end
   end
 end

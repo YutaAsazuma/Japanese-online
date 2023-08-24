@@ -7,7 +7,13 @@ function TypeList() {
   const [types, setTypes] = useState([])
 
   useEffect(() => {
-    axios.get('/api/v1/types.json')
+    axios.get('/api/v1/types.json', {
+      headers: {
+        'access-token': localStorage.getItem('access-token'),
+        'client': localStorage.getItem('client'),
+        'uid': localStorage.getItem('uid')
+      }
+    })
     .then(resp => {
       console.log(resp.data);
       setTypes(resp.data);

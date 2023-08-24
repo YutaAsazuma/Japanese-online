@@ -39,8 +39,10 @@ const Login = () => {
       navigate('/')
     })
     .catch(error => {
-      const errorMsg = error.response && error.response.data ? error.response.data.message : "Authentication error";
+      const errorMsg = error.response && error.response.status === 401 ? "Invalid email or password" : "Authentication error";
       setErrorMessage(errorMsg);
+      setEmail('');
+      setPassword('');
     });
   }
 
@@ -51,11 +53,11 @@ const Login = () => {
       <form onSubmit={submitLogin}>
         <label>
           <p>Email</p>
-          <input type="text" onChange={e => setEmail(e.target.value)}/>
+          <input type="text" value={email} onChange={e => setEmail(e.target.value)}/>
         </label>
         <label>
           <p>Password</p>
-          <input type="password" onChange={e => setPassword(e.target.value)}/>
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)}/>
         </label>
         <div>
           <button type="submit">Log in</button>
