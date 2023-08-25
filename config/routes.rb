@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # namespace :api do
   #   namespace :v1 do
   #     devise_for :users, controllers: { sessions: 'api/v1/sessions' }
-  #   end
+  #   endd
   # end
 
   get 'types', to: 'site#index'
@@ -21,12 +21,10 @@ Rails.application.routes.draw do
           get :show_products
         end
       end
-      resources :products, only: %i[index create]
-      resources :products, only: :show do
-        resources :favorite, only: :create
+      resources :products, only: %i[index show create destroy] do
+        resources :favorites, only: :create
       end
-      resources :products, only: :destroy
-      resources :favorites, only: :destroy
+      resources :favorites, only: %i[index destroy]
     end
   end
 end

@@ -7,6 +7,7 @@ import ProductList from "./ProductsList";
 import UserContext from "./UserContext";
 import Login from "./Login";
 import AdminPost from "./AdminPost";
+import FavoritesList from "./FavoritesList";
 import Container from 'react-bootstrap/Container';
 import './App.css'
 import axios from "axios";
@@ -112,7 +113,7 @@ const Nav = ({ handleLogout }) => {
           <Link to="/">Home</Link>
         </NavItem>
         <NavItem onClick={() => setIsDropdownOpen(false)}>
-          <Link to="/">Favorite</Link>
+          <Link to='/api/v1/favorites'>Favorite</Link>
         </NavItem>
         <NavItem onClick={() => setIsDropdownOpen(false)}>
           <Link to="/">Cart</Link>
@@ -214,6 +215,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/types" element={<TypeList />} />
             <Route path="/types/:id/show_products" element={<ProductList />}/>
+            <Route path="/api/v1/favorites" element={<FavoritesList />}/>
             <Route path="/auth/sign_in" element={<Login />}/>
             <Route path="/api/v1/products/new" element={<AdminRoute><AdminPost /></AdminRoute>}/>
           </Routes>

@@ -1,18 +1,24 @@
 class Api::V1::FavoritesController < ApplicationController
-  def create
-    product = Product.find(params[:product_id])
-    favorite = current_user.favorite.new(product: @product)
 
-    if favorite.save
-      redirect_to  api_v1_product_path(@product)
+  def index
+    @favorites = current_user.favorites
+    render json: @favorites
+  end
+
+  def create
+    @product = Product.find(params[:product_id])
+    @favorite = current_user.favorites.new(product: @product)
+
+    if @favorite.save
+      render json: { success: true, message: "Product added to favorites" }
     else
-      redirect_to  api_v1_product_path(@product), notice: @favorite.errors.full_messages[0]
+      render json: { success: false, message: @favorite.errors.full_messages[0] }
     end
   end
 
-  def destory
+  def destroy
     favorite = Favorite.find(params[:id])
-    product = Product.where(user: current_user, favorite: @favorite)
+    @product = favorite.product
     if favorite.destroy
       redirect_to  api_v1_product_path(@product)
     else

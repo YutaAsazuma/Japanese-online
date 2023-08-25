@@ -65,18 +65,37 @@ const ProductPrice = styled.p`
   right: 12px;
 `;
 
-const Favorited = () => {
+const Favorited = ({productId}) => {
   const [ favorited, setFavorited ] = useState(false);
 
    const toggleFavorited = () => {
-    setFavorited(!favorited);
+    const headers = {
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    }
+
+    if (favorited) {
+      axios.delete(`/api/v1/favorites/${productId}`, { headers })
+      .then(resp => {
+        setFavorited(false)
+      })
+    } else {
+      axios.post(`/api/v1/products/${productId}/favorites`, {}, { headers })
+      .then(resp => {
+        setFavorited(true);
+      })
+      .catch(error => {
+        console.log("Error adding to favorites:", error);
+      });
+    }
    };
 
    return (
     <StyledIcon
       icon={favorited ? solidHeart : regularHeart}
       size="lg"
-      favorited={favorited}
+      data-favorited={favorited.toString()}
       onClick={toggleFavorited}
     />
    )
@@ -115,7 +134,7 @@ const ProductList = () => {
               <p>No images</p>
             )}
             <ProductDetailFlex>
-              <Favorited />
+              <Favorited productId={product.id} />
               <ProductPrice>{product.price}€</ProductPrice>
             </ProductDetailFlex>
           </ProductCard>
