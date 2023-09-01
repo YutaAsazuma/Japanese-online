@@ -18,10 +18,13 @@ const FavoritesList = () => {
           favs.map(fav => axios.get(`/api/v1/products/${fav.product_id}`))
         );
 
-        const mergedFavorites = favs.map((fav, idx) => ({
-          ...fav,
-          product: productResponses[idx].data
-        }));
+        const mergedFavorites = favs.map((fav, idx) => {
+          const product = productResponses[idx].data.product;
+          return {
+            ...fav,
+            product
+          }
+        });
 
         setFavorites(mergedFavorites);
       } catch (error) {
