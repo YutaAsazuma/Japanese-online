@@ -5,6 +5,11 @@ class Product < ApplicationRecord
   mount_uploaders :images, ImageUploader
   serialize :images, JSON
 
+  def is_favorited?(user)
+    return false unless user
+    favorites.where(user: user).exists?
+  end
+
   def purchase(amount)
     raise ArgumentError, "Amount should be positive" if amount <= 0
 

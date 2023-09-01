@@ -20,9 +20,11 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # gem "bootsnap", require: false
 gem "sassc-rails"
 gem "autoprefixer-rails"
-gem 'devise_token_auth'
+gem 'jwt'
+gem 'devise-jwt'
+gem 'jsonapi-serializer'
 gem 'rack-cors'
-gem 'omniauth'
+
 gem 'rack-protection', '2.1.0'
 gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
