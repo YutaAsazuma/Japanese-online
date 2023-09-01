@@ -1,4 +1,5 @@
 class Api::V1::FavoritesController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def index
     @favorites = current_user.favorites
@@ -7,9 +8,10 @@ class Api::V1::FavoritesController < ApplicationController
 
   def create
     @product = Product.find(params[:product_id])
-    @favorite = current_user.favorited.new(product: @product)
+    @user = User.find(current_user.id)
+    @favorite = @user.favorites.create(product: @product)
 
-    if @favorite.save
+    if @favorite.persisted?
       render json: { success: true, message: "Product added to favorites" }
     else
       render json: { success: false, message: @favorite.errors.full_messages[0] }
@@ -18,6 +20,11 @@ class Api::V1::FavoritesController < ApplicationController
 
   def destroy
     favorite = Favorite.find(params[:id])
+    unless favorite
+      render json: { success: false, message: "Favorite not found" }, status: :not_found
+      return
+    end
+
     @product = favorite.product
     if favorite.destroy
       render json: { success: true, message: "Product removed from favorites" }

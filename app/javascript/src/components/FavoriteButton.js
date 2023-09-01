@@ -14,12 +14,12 @@ const StyledIcon = styled(FontAwesomeIcon)`
   color: ${props => props.favorited ? "#ff0000" : " "};
 `
 
-const FavoriteButton = ({ productId, isFavorited }) => {
+const FavoriteButton = ({ productId, favoriteId, isFavorited }) => {
   const [ favorited, setFavorited ] = useState(isFavorited);
 
   const toggleFavorited = () => {
     if (favorited) {
-      axios.delete(`/api/v1/favorites/${productId}`)
+      axios.delete(`/api/v1/favorites/${favoriteId}`)
       .then(resp => {
         setFavorited(false)
       })

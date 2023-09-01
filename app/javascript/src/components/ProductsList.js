@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import FavoriteButton from "./FavoriteButton";
 
 axios.defaults.withCredentials = true;
+const token = document.querySelector('meta[name="csrf-token"]').content;
+axios.defaults.headers.common['X-CSRF-Token'] = token;
 
 const ProductGrid = styled.div`
   display: flex;
@@ -84,7 +86,7 @@ const ProductList = () => {
               <p>No images</p>
             )}
             <ProductDetailFlex>
-              <FavoriteButton productId={product.id} isFavorited={product.is_favorited} />
+              <FavoriteButton productId={product.id} favoriteId={product.favorite_id} isFavorited={product.is_favorited} />
               <ProductPrice>{product.price}€</ProductPrice>
             </ProductDetailFlex>
           </ProductCard>

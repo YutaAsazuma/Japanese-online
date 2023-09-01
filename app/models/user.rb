@@ -5,5 +5,6 @@ class User < ApplicationRecord
     :registerable, :recoverable, :validatable,
     :jwt_authenticatable, jwt_revocation_strategy: self
 
-  has_many :favorites, dependent: :destroy
+  has_many :favorites
+  has_many :favorited_products, through: :favorites, source: :product
 end

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
+const token = document.querySelector('meta[name="csrf-token"]').content;
+axios.defaults.headers.common['X-CSRF-Token'] = token;
 
 const FavoritesList = () => {
   const [ favorites, setFavorites ] = useState([]);
@@ -9,11 +11,11 @@ const FavoritesList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await axios.get('/api/v1/favorites', { headers });
+        const resp = await axios.get('/api/v1/favorites');
         const favs = resp.data;
 
         const productResponses = await Promise.all(
-          favs.map(fav => axios.get(`/api/v1/products/${fav.product_id}`, { headers }))
+          favs.map(fav => axios.get(`/api/v1/products/${fav.product_id}`))
         );
 
         const mergedFavorites = favs.map((fav, idx) => ({
