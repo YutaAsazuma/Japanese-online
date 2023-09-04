@@ -110,9 +110,6 @@ const Nav = ({ handleLogout }) => {
       </DropdownButton>
       <NavItems open={isDropdownOpen}>
         <NavItem onClick={() => setIsDropdownOpen(false)}>
-          <Link to="/">Home</Link>
-        </NavItem>
-        <NavItem onClick={() => setIsDropdownOpen(false)}>
           <Link to='/api/v1/favorites'>Favorite</Link>
         </NavItem>
         <NavItem onClick={() => setIsDropdownOpen(false)}>
