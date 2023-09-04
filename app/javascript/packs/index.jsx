@@ -2,10 +2,16 @@
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fab, faHeart);
+
 import React from 'react'
 import ReactDOM  from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import App from '../components/App.js'
+import App from '../src/App.js'
 // import { createRoot } from 'react-dom/client'
 
 

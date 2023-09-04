@@ -1,8 +1,10 @@
 class User < ApplicationRecord
-  include DeviseTokenAuth::Concerns::User
-  # devise :database_authenticatable, :registerable,
-  #   :recoverable, :rememberable, :trackable, :validatable,
-  #   :confirmable, :omniauthable
+  include Devise::JWT::RevocationStrategies::JTIMatcher
 
-  has_many :favorite, dependent: :destroy
+  devise :database_authenticatable,
+    :registerable, :recoverable, :validatable,
+    :jwt_authenticatable, jwt_revocation_strategy: self
+
+  has_many :favorites
+  has_many :favorited_products, through: :favorites, source: :product
 end

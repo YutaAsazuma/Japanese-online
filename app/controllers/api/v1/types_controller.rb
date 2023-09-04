@@ -28,13 +28,22 @@ class Api::V1::TypesController < ApplicationController
   end
 
   def show_products
-    type = Type.find(params[:id])
-    products = type.products
-    render json: products
+    @products = Product.where(type_id: params[:id])
+    render json: @products.map { |product| product_with_favorites(product, current_user) }
+  rescue => e
+    render json: { error: e.message }, status: :internal_server_error
     # @product = Product.find(params[:id])
   end
 
   private
+
+  def product_with_favorites(product, user)
+    favorite = Favorite.find_by(user_id: user.id, product_id: product.id)
+    product.as_json.merge(
+      is_favorited: !!favorite,
+      favorite_id: favorite&.id
+    )
+  end
 
   def set_category
     @type = Type.find(params[:id])

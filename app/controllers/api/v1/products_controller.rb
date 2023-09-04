@@ -12,7 +12,14 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def show
-    render json: { product: @product }
+    render json: {
+      product: {
+        id: @product.id,
+        name: @product.name,
+        price: @product.price,
+        images: @product.images.map { |img| img.url  }
+      }
+    }
   end
 
   def new

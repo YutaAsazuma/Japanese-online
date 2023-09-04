@@ -1,19 +1,19 @@
 Rails.application.routes.draw do
-  # namespace :admin do
-  #   resources :sessions, only: [ :new, :create, :destroy ]
-  # end
+  devise_for :users, defaults: { format: :json }, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
 
   root to: 'site#index'
-  mount_devise_token_auth_for 'User', at: 'auth'
-
-  # namespace :api do
-  #   namespace :v1 do
-  #     devise_for :users, controllers: { sessions: 'api/v1/sessions' }
-  #   end
-  # end
 
   get 'types', to: 'site#index'
   get 'types/:id/show_products', to: 'site#index'
+
   namespace :api do
     namespace :v1 do
       resources :types, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
@@ -21,7 +21,10 @@ Rails.application.routes.draw do
           get :show_products
         end
       end
-      resources :products, only: %i[index show create]
+      resources :products, only: %i[index show create destroy] do
+        resources :favorites, only: :create
+      end
+      resources :favorites, only: %i[index destroy]
     end
   end
 end
