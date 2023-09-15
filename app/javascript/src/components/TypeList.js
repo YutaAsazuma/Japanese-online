@@ -1,23 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { styled } from 'styled-components';
+// import { styled } from 'styled-components';
 
 axios.defaults.withCredentials = true;
 
 function TypeList() {
-  const [types, setTypes] = useState([])
+  const [types, setTypes] = useState([]);
 
   useEffect(() => {
     axios.get('/api/v1/types.json', { withCredentials: true })
-    .then(resp => {
-      console.log(resp.data);
-      setTypes(resp.data);
-    })
-    .catch(e => {
-      console.log(e);
-    })
-  }, [])
+      .then((resp) => {
+        // console.log(resp.data);
+        setTypes(resp.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
 
   return (
     <div>
@@ -30,10 +30,7 @@ function TypeList() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
-
-
-
 
 export default TypeList;

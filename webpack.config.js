@@ -17,10 +17,10 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 1
+      maxChunks: 1,
     }),
     new WebpackManifestPlugin(),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
@@ -34,7 +34,19 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
+      {
+        test: /\.mp4$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'videos/',
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {

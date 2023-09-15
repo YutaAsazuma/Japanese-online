@@ -64,7 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_29_111228) do
     t.datetime "updated_at", null: false
     t.string "phoneNumber"
     t.string "name"
-    t.boolean "admin"
+    t.boolean "admin", null: false
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.boolean "allow_password_change", default: false

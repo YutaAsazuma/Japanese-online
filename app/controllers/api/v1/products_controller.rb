@@ -1,7 +1,7 @@
 class Api::V1::ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: %i[show edit update destroy]
   before_action :authenticate_user!, except: [:index]
-  before_action :authorize_user!, only: [:create, :update, :destroy]
+  before_action :authorize_user!, only: %i[create update destroy]
 
   rescue_from ActiveRecord::RecordNotFound do
     render json: { error: "Product not found" }, status: 404

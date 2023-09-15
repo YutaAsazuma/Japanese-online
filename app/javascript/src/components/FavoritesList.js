@@ -22,7 +22,7 @@ const FavoritesList = () => {
           const product = productResponses[idx].data.product;
           return {
             ...fav,
-            product
+            product,
           }
         });
 

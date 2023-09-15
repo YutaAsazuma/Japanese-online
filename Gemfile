@@ -16,7 +16,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
 gem 'react-rails'
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 # gem "bootsnap", require: false
 gem "sassc-rails"
 gem "autoprefixer-rails"
@@ -29,6 +29,9 @@ gem 'rack-protection', '2.1.0'
 gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 
+group :development do
+  gem 'rubocop-performance'
+end
 
 group :development do
   gem 'letter_opener'
