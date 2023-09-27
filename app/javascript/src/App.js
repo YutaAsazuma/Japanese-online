@@ -5,18 +5,17 @@ import TypeList from "./components/TypeList";
 import ProductList from "./components/ProductsList";
 import UserContext from "./UserContext";
 import Login from "./components/Login";
-import Nav from "./components/Nav";
 import Homepage from "./components/Homepage";
 import AdminPost from "./components/AdminPost";
 import FavoritesList from "./components/FavoritesList";
-import './components/App.css'
+import './App.css'
 
 
 
 const AdminRoute = ({ children }) => {
-  const { isAdmin } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  if(!isAdmin) {
+  if(!user || !user.admin) {
     return <Navigate to="/" />
   }
     return children;
@@ -26,20 +25,28 @@ const App = () => {
   const [ logoutMessage, setLogoutMessage ] = useState("");
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [admin, setAdmin] = useState(false);
 
 
-  const handleLogin = (userData) => {
-    setUser(userData);
-    setIsAdmin(userData.admin);
+  const handleLogin = (receivedData) => {
+    const user = receivedData?.status?.data?.user;
+    if (user){
+      setUser(user);
+      console.log('user after set:', user);
+    } else {
+      console.error('Unable to set user in handleLogin. receivedData:', receivedData);
+    }
   }
   useEffect(() => {
     console.log("User state changed:", user);
+    if (user === undefined) {
+      console.trace("User state is undefined");
+    }
   }, [user]);
 
   const handleLogout = () => {
     setUser(null);
-    setIsAdmin(false);
+    // setAdmin(false);
     localStorage.removeItem('jwtToken')
 
     setLogoutMessage("Successfully logged out!")
@@ -48,10 +55,10 @@ const App = () => {
         setLogoutMessage("");
       }, 3000);
     };
+
   return (
     <>
-      <UserContext.Provider value={{ user, setUser, isAdmin, setIsAdmin, handleLogin }}>
-        <Nav handleLogout={handleLogout} />
+      <UserContext.Provider value={{ user, setUser, handleLogin, handleLogout }}>
         <div>
           <Routes>
             <Route path="/" element={<Homepage />} />

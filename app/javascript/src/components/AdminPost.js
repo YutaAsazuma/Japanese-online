@@ -11,6 +11,7 @@ const AdminPost = () => {
   const [ images, setImages ] = useState([]);
   const [ typeId, setTypeId] = useState('');
   const [ types, setTypes ] = useState([]);
+  console.log('Auth Token:', auth?.token);
 
   useEffect(() => {
     if(auth?.token) {

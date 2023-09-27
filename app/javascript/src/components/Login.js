@@ -4,7 +4,7 @@ import axios from "axios";
 import UserContext from "../UserContext";
 
 const Login = () => {
-  const { setIsAdmin, handleLogin } = useContext(UserContext);
+  const { setUser, handleLogin } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -19,27 +19,35 @@ const Login = () => {
 
   const submitLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    if (!email || !password) {
+      setError("Please provide both email and password.");
+      return;
+    }
     try {
-      const res = await API.post("/login", { user: { email, password }})
-              .then((res) => {
-        const receivedData = res.data;
+      const loginData = {
+        email: email,
+        password: password
+      };
+      const res = await API.post("/login", loginData);
+      console.log('API Response:', res.data);
+      const receivedData = res.data;
         if (receivedData.status.code === 200) {
           navigate(from, { replace: true });
-          handleLogin({
-            user: receivedData,
-            admin: receivedData.admin ? true : false
-          });
-
+          handleLogin(receivedData);
+          // if (receivedData) {
+          //   setUser(receivedData.user);
+          // } else {
+          //   console.error('User is undefined', receivedData);
+          // }
         } else {
-          console.log("incorrect submission");
-          setError(res.message);
+          setError("Incorrect credentials.");
         }
-      });
-    } catch (err) {
+      } catch (err) {
       if (!err?.response) {
         setError("no server response");
       } else {
-        setError("registration failed");
+        setError("Login failed. Please try again later.");
       }
     }
   };

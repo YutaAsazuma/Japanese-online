@@ -21,7 +21,7 @@ Rails.application.routes.draw do
           get :show_products
         end
       end
-      resources :products, only: %i[index show create destroy] do
+      resources :products, only: %i[index show new create destroy] do
         resources :favorites, only: :create
       end
       resources :favorites, only: %i[index destroy]

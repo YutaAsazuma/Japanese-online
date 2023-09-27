@@ -23,7 +23,7 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def new
-    product = Product.new
+    @product = Product.new
   end
 
   def create
