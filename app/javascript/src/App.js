@@ -13,7 +13,7 @@ import './App.css'
 
 
 const AdminRoute = ({ children }) => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   if(!user || !user.admin) {
     return <Navigate to="/" />
@@ -25,13 +25,16 @@ const App = () => {
   const [ logoutMessage, setLogoutMessage ] = useState("");
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   // const [admin, setAdmin] = useState(false);
 
 
   const handleLogin = (receivedData) => {
-    const user = receivedData?.status?.data?.user;
+    const user = receivedData.user;
+    const token = receivedData.token
     if (user){
       setUser(user);
+      setToken(token);
       console.log('user after set:', user);
     } else {
       console.error('Unable to set user in handleLogin. receivedData:', receivedData);
@@ -58,7 +61,7 @@ const App = () => {
 
   return (
     <>
-      <UserContext.Provider value={{ user, setUser, handleLogin, handleLogout }}>
+      <UserContext.Provider value={{ user, setUser, token, setToken, handleLogin, handleLogout }}>
         <div>
           <Routes>
             <Route path="/" element={<Homepage />} />

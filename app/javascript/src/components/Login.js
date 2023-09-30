@@ -4,7 +4,7 @@ import axios from "axios";
 import UserContext from "../UserContext";
 
 const Login = () => {
-  const { setUser, handleLogin } = useContext(UserContext);
+  const { handleLogin } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -13,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const API = axios.create({
-    baseURL: "http://localhost:3001",
+    baseURL: "https://localhost:3000",
     withCredentials: true,
   });
 
@@ -32,7 +32,8 @@ const Login = () => {
       const res = await API.post("/login", loginData);
       console.log('API Response:', res.data);
       const receivedData = res.data;
-        if (receivedData.status.code === 200) {
+      console.log(receivedData);
+        if (receivedData.user) {
           navigate(from, { replace: true });
           handleLogin(receivedData);
           // if (receivedData) {
@@ -44,6 +45,7 @@ const Login = () => {
           setError("Incorrect credentials.");
         }
       } catch (err) {
+        console.error(err)
       if (!err?.response) {
         setError("no server response");
       } else {
