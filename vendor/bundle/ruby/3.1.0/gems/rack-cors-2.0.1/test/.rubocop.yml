@@ -6,3 +6,5 @@ Style/ClassAndModuleChildren:
   Enabled: false
 Security/Eval:
   Enabled: false
+
+

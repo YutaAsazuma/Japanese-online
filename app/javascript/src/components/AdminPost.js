@@ -3,7 +3,7 @@ import API from "../api";
 import UserContext from "../UserContext";
 
 const AdminPost = () => {
-  const { auth } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const [ name, setName ] = useState('');
   const [ description, setDescription ] = useState('');
   const [ price, setPrice ] = useState('');
@@ -13,19 +13,20 @@ const AdminPost = () => {
   const [ types, setTypes ] = useState([]);
 
   useEffect(() => {
-    if(auth?.token) {
-      setAuthToken(auth.token);
-    }
     const fetchTypes = async () => {
       try {
-        const res = await API.get('/api/v1/types');
+        const res = await API.get('/api/v1/types', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         setTypes(res.data);
       } catch (error) {
         console.error("Error fetching types:", error);
       }
     }
     fetchTypes();
-  }, [auth]);
+  }, [token]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,20 +45,21 @@ const AdminPost = () => {
     try {
       const headers = {
         'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`,
       };
 
       const resp = await API.post('/api/v1/products', formData, {
         headers: headers,
       });
 
-      if (response.status === 200 || response.status === 201) {
-        console.log("Product created successfully:", response.data);
+      if (resp.status === 200 || resp.status === 201) {
+        console.log("Product created successfully:", resp.data);
       } else {
         throw new Error("Failed to create product");
       }
     } catch (error) {
       if (error.response && error.response.data.errors) {
-        console.error("Errors from the server:", error.response.data.errors);
+        console.error("Errors from the server:", error.resp.data.errors);
       } else {
         console.error("Request error:", error.message);
       }

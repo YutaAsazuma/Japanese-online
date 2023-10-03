@@ -60,4 +60,6 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  config.force_ssl = true
+  # config.ssl_options = { key: "certs/localhost.key", cert: "certs/localhost.crt" }
 end

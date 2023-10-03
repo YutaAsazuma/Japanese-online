@@ -7,4 +7,7 @@ class User < ApplicationRecord
 
   has_many :favorites
   has_many :favorited_products, through: :favorites, source: :product
+
+  validates :email, presence: true
+  validates :password, presence: true, length: { minimum: 6 }
 end

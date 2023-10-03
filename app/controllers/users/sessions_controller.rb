@@ -4,6 +4,35 @@ class Users::SessionsController < Devise::SessionsController
   skip_before_action :verify_authenticity_token
   respond_to :json
 
+  def create
+    user = User.find_by(email: params[:email])
+
+    if user && user.valid_password?(params[:password])
+      jwt_token = generate_jwt_for(user)
+      Rails.logger.info("Generated Token: #{jwt_token}")
+      cookies.signed[:jwt] = {
+        value: jwt_token,
+        httponly: true,
+        secure: Rails.env.production?,
+        samesite: 'None',
+        domain: 'https://localhost:3000'
+      }
+      render json: {
+        user: {
+          id: user.id,
+          email: user.email,
+          admin: user.admin,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+          jti: user.jti
+        },
+        token: jwt_token
+      }, status: :ok
+    else
+      render json: { error: 'Invalid Email or Password' }, status: :unauthorized
+    end
+  end
+
   private
 
   def generate_jwt_for(user)
@@ -35,7 +64,7 @@ class Users::SessionsController < Devise::SessionsController
       current_user = User.find(jwt_payload['sub'])
     end
 
-    cookies.delete(:token)
+    cookies.delete(:jwt)
 
     if current_user
       render json: {

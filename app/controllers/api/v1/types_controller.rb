@@ -38,10 +38,17 @@ class Api::V1::TypesController < ApplicationController
   private
 
   def product_with_favorites(product, user)
-    favorite = Favorite.find_by(user_id: user.id, product_id: product.id)
+    if user.nil?
+      is_favorited = false
+      favorite_id = nil
+    else
+      favorite = Favorite.find_by(user_id: user.id, product_id: product.id)
+      is_favorited = !!favorite
+      favorite_id = favorite&.id
+    end
     product.as_json.merge(
-      is_favorited: !!favorite,
-      favorite_id: favorite&.id
+      is_favorited: is_favorited,
+      favorite_id: favorite_id
     )
   end
 

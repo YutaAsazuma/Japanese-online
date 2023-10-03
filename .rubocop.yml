@@ -1,14 +1,17 @@
 AllCops:
+  TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
     - 'bin/**/*'
     - 'db/**/*'
+    - 'vendor/**/*'
     - 'config/**/*'
     - 'node_modules/**/*'
     - 'script/**/*'
     - 'support/**/*'
     - 'tmp/**/*'
     - 'test/**/*'
+    - 'app/javascript/src/**/*.js'
 
 Style/ConditionalAssignment:
   Enabled: false

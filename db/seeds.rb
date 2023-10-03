@@ -16,7 +16,8 @@ User.find_or_create_by!(email: "asa14151415@gmail.com") do |user|
   user.password = "222222"
 end
 
-User.find_or_create_by!(email: "asa@gmail.com") do |user|
+user_admin = User.find_or_create_by!(email: "asa@gmail.com") do |user|
   user.password = "222222"
-  user.admin = true
 end
+
+user_admin.update(admin: true)
