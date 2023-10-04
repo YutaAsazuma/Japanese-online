@@ -56,5 +56,10 @@ module.exports = {
     __dirname: false,
     __filename: false,
     global: true
-  }
+  },
+  devServer: {
+    https: true,
+    key: './certs/localhost.key',
+    cert: './certs/localhost.crt',
+  },
 };

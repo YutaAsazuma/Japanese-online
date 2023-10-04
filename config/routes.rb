@@ -22,9 +22,12 @@ Rails.application.routes.draw do
         end
       end
       resources :products, only: %i[index show new create destroy] do
-        resources :favorites, only: :create
+        resources :favorites, only: %i[create destroy]
+        member do
+          get :favorite
+        end
       end
-      resources :favorites, only: %i[index destroy]
+      resources :favorites, only: %i[index]
     end
   end
 end
