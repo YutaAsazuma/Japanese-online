@@ -39,6 +39,14 @@ class Api::V1::ProductsController < ApplicationController
   def edit
   end
 
+  def favorite
+    product = Product.find(params[:id])
+    is_favorited = product.is_favorited?(current_user)
+    favorite_id = is_favorited ? product.favorite_id(current_user) : nil
+
+    render json: { is_favorited: is_favorited, favorite_id: favorite_id }
+  end
+
   def update
     if product.update(product_params)
       render json: product

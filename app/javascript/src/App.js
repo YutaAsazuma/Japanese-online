@@ -65,8 +65,8 @@ const App = () => {
         <div>
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/types" element={<TypeList />} />
-            <Route path="/types/:id/show_products" element={<ProductList />}/>
+            <Route path="/types" element={<TypeList user={user} token={token} />} />
+            <Route path="/types/:id/show_products" element={<ProductList user={user} token={token}/>} />
             <Route path="/api/v1/favorites" element={<FavoritesList />}/>
             <Route path="/login" element={<Login />}/>
             <Route path="/api/v1/products/new" element={<AdminRoute><AdminPost /></AdminRoute>}/>

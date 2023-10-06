@@ -11,6 +11,11 @@ class Product < ApplicationRecord
     favorites.where(user_id: user.id).exists?
   end
 
+  def favorite_id(user)
+    favorite = favorites.find_by(user: user)
+    favorite.id if favorite
+  end
+
   def purchase(amount)
     raise ArgumentError, "Amount should be positive" if amount <= 0
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
 import FavoriteButton from "./FavoriteButton";
@@ -59,38 +59,62 @@ const ProductPrice = styled.p`
   bottom: -13px;
   right: 12px;
 `;
-const ProductList = () => {
+
+const ProductList = ({ user, token }) => {
   let { id } = useParams();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    const userToken = token;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
+    
     axios.get(`/api/v1/types/${id}/show_products`, { withCredentials: true })
-    .then(resp => {
-      setProducts(resp.data);
-    })
-    .catch(error => {
-      console.log("Error fetching products:", error);
-    });
-  }, [id])
+      .then(async (resp) => {
+        const favoritedProduct = await Promise.all(
+          resp.data.map(async (product) => {
+            const favoriteResponse = await axios.get(
+              `/api/v1/products/${product.id}/favorite`,
+              { withCredentials: true }
+            );
+            const isFavorited = favoriteResponse.data.isFavorited;
+            const favoriteId = isFavorited ? favoriteResponse.data.favoriteId : null;
+            return { ...product, isFavorited, favoriteId };
+          })
+        )
+        setProducts(favoritedProduct);
+      })
+      .catch(error => {
+        console.log("Error fetching products:", error);
+      });
+  }, [id]);
 
   return (
     <ProductGrid>
       {products.length > 0 ? (
-        products.map((product) => (
-          <ProductCard key={product.id}>
-            {product.images.length > 0 ? (
-              product.images.map((image, index) => (
-                <ProductImage key={index} src={image.url} alt={product.name} />
-              ))
-            ) : (
-              <p>No images</p>
-            )}
-            <ProductDetailFlex>
-              <FavoriteButton productId={product.id} favoriteId={product.favorite_id} isFavorited={product.is_favorited} />
-              <ProductPrice>{product.price}€</ProductPrice>
-            </ProductDetailFlex>
-          </ProductCard>
-        ))
+        products.map((product) => {
+          const favoriteId = product.is_favorited ? product.favorite_id : null;
+          return (
+            <ProductCard key={product.id}>
+              {product.images.length > 0 ? (
+                product.images.map((image, index) => (
+                  <ProductImage key={index} src={image.url} alt={product.name} />
+                ))
+              ) : (
+                <p>No images</p>
+              )}
+              <ProductDetailFlex>
+                <FavoriteButton
+                  productId={product.id}
+                  favoriteId={favoriteId}
+                  isFavorited={product.is_favorited}
+                  user={user}
+                  token={token}
+                />
+                <ProductPrice>{product.price}€</ProductPrice>
+              </ProductDetailFlex>
+            </ProductCard>
+          );
+        })
       ) : (
         <p>No items found</p>
       )}

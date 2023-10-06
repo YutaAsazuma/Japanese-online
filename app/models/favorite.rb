@@ -4,5 +4,5 @@ class Favorite < ApplicationRecord
 
   validates :user, presence: true
   validates :product, presence: true
-  validates :product_id, uniqueness: {scope: :user_id, message: "Already favorited"}
+  validates :user_id, uniqueness: {scope: :product_id, message: "Already favorited"}
 end
