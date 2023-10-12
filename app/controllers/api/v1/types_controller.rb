@@ -46,9 +46,13 @@ class Api::V1::TypesController < ApplicationController
       is_favorited = !!favorite
       favorite_id = favorite&.id
     end
+
+    image_urls = product.images.map { |img| img.url }
+
     product.as_json.merge(
       is_favorited: is_favorited,
-      favorite_id: favorite_id
+      favorite_id: favorite_id,
+      image_urls: image_urls
     )
   end
 

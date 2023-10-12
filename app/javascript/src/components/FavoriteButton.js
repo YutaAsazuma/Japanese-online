@@ -17,13 +17,10 @@ const FavoriteButton = ({ productId, favoriteId, isFavorited, token }) => {
   const [ userFavoritedId, setUserFavoritedId ] = useState(favoriteId);
 
   useEffect(() => {
-    console.log('isFavorited prop changed:', isFavorited);
     setFavorited(isFavorited);
   }, [isFavorited]);
 
   const toggleFavorited = () => {
-    console.log('isFavorited prop changed:', isFavorited);
-    console.log("Current favoriteId:", favoriteId);
     if(favorited && favoriteId !== null){
       axios.delete(`/api/v1/products/${productId}/favorites/${favoriteId}`)
       .then(resp => {

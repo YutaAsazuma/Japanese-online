@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
-const token = document.querySelector('meta[name="csrf-token"]').content;
-axios.defaults.headers.common['X-CSRF-Token'] = token;
+// axios.defaults.withCredentials = true;
+// const token = document.querySelector('meta[name="csrf-token"]').content;
+// axios.defaults.headers.common['X-CSRF-Token'] = token;
 
-const FavoritesList = () => {
+const FavoritesList = ({token}) => {
   const [ favorites, setFavorites ] = useState([]);
 
   useEffect(() => {
+    const userToken = token;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
+
     const fetchData = async () => {
       try {
         const resp = await axios.get('/api/v1/favorites');
@@ -33,7 +36,7 @@ const FavoritesList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
   return (
     <div>

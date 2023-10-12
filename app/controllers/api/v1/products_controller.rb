@@ -17,7 +17,7 @@ class Api::V1::ProductsController < ApplicationController
         id: @product.id,
         name: @product.name,
         price: @product.price,
-        images: @product.images.map { |img| img.url  }
+        images: @product.images.map(&:url)
       }
     }
   end
@@ -28,8 +28,9 @@ class Api::V1::ProductsController < ApplicationController
 
   def create
     product = Product.new(product_params)
+    # product.images = params[:images]
     if product.save
-      render json: product
+      render json: product, status: :created
     else
       Rails.logger.error("Product save failed with errors: #{product.errors.full_messages.join(', ')}")
       render json: { errors: product.errors.full_messages }, status: 422
@@ -56,7 +57,7 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def destroy
-    @product.destroy
+    product.destroy
     render json: { message: 'Product was successfully destroyed.' }
   end
 

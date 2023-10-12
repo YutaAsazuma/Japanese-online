@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../UserContext";
+import Nav from "./Nav"
 
 const Login = () => {
   const { handleLogin } = useContext(UserContext);
@@ -56,6 +57,7 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
+      <Nav />
       <h1>Log in</h1>
       {error && <p style={{color: 'red'}}>{error}</p>}
       <form onSubmit={submitLogin}>

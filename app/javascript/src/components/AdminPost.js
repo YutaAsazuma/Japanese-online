@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from 'react-router';
 import API from "../api";
 import UserContext from "../UserContext";
 
@@ -11,6 +12,7 @@ const AdminPost = () => {
   const [ images, setImages ] = useState([]);
   const [ typeId, setTypeId] = useState('');
   const [ types, setTypes ] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -40,7 +42,9 @@ const AdminPost = () => {
     formData.append('description', description);
     formData.append('price', price);
     formData.append('amount_of_stocks', amountOfStocks);
-    images.forEach(image => formData.append('images[]', image));
+    images.forEach((image) => {
+      formData.append(`images[]`, image);
+    });
 
     try {
       const headers = {
@@ -54,6 +58,7 @@ const AdminPost = () => {
 
       if (resp.status === 200 || resp.status === 201) {
         console.log("Product created successfully:", resp.data);
+        navigate("/types");
       } else {
         throw new Error("Failed to create product");
       }
