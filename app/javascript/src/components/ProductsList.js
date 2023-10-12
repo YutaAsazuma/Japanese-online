@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
 import FavoriteButton from "./FavoriteButton";
+// import Slider from "react-slick";
+import ImageSlider from "./ImageSlider";
 
 axios.defaults.withCredentials = true;
 const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -19,7 +21,6 @@ const ProductCard = styled.div`
   position: relative;
   border: 1px solid #e1e1e1;
   background-color: white;
-  padding: 13px;
   margin: 15px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -41,11 +42,11 @@ const ProductCard = styled.div`
   }
 `;
 
-const ProductImage = styled.img`
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-`;
+// const ProductImage = styled.img`
+//   max-width: 100%;
+//   height: auto;
+//   border-radius: 5px;
+// `;
 
 const ProductDetailFlex = styled.div`
   display: flex;
@@ -64,29 +65,60 @@ const ProductList = ({ user, token }) => {
   let { id } = useParams();
   const [products, setProducts] = useState([]);
 
+  const containerStyle = {
+    width: "100%",
+    height: "280px",
+    margin: "0 auto"
+  };
+
   useEffect(() => {
-    const userToken = token;
-    axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
-    
-    axios.get(`/api/v1/types/${id}/show_products`, { withCredentials: true })
-      .then(async (resp) => {
-        const favoritedProduct = await Promise.all(
+    const fetchProducts = async () => {
+      try {
+        if (user) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+
+        const resp = await axios.get(`/api/v1/types/${id}/show_products`, {
+          withCredentials: true,
+        });
+
+        console.log("API Response:", resp.data);
+
+        const fetchedProducts = await Promise.all(
           resp.data.map(async (product) => {
-            const favoriteResponse = await axios.get(
-              `/api/v1/products/${product.id}/favorite`,
-              { withCredentials: true }
-            );
+            const favoriteResponse = user
+              ? await axios.get(
+                  `/api/v1/products/${product.id}/favorite`,
+                  { withCredentials: true }
+                )
+              : { data: { isFavorited: false, favoriteId: null } };
+
             const isFavorited = favoriteResponse.data.isFavorited;
-            const favoriteId = isFavorited ? favoriteResponse.data.favoriteId : null;
-            return { ...product, isFavorited, favoriteId };
+            const favoriteId = isFavorited
+              ? favoriteResponse.data.favoriteId
+              : null;
+
+            const imageUrls =
+              product.images.map( (image) => {
+                // const imageUrlResponse = await fetchImageFromServer(image);
+                // const imageUrl = imageUrlResponse.data.url;
+                // console.log("Image URL:", imageUrl);
+                // return imageUrl;
+                return image.url;
+              });
+            console.log("Product:", product.name, "Image URLs:", imageUrls);
+            return { ...product, isFavorited, favoriteId, imageUrls };
           })
-        )
-        setProducts(favoritedProduct);
-      })
-      .catch(error => {
+        );
+
+        setProducts(fetchedProducts);
+      } catch (error) {
         console.log("Error fetching products:", error);
-      });
-  }, [id]);
+      }
+    };
+
+    fetchProducts();
+  }, [id, user, token]);
 
   return (
     <ProductGrid>
@@ -95,13 +127,20 @@ const ProductList = ({ user, token }) => {
           const favoriteId = product.is_favorited ? product.favorite_id : null;
           return (
             <ProductCard key={product.id}>
-              {product.images.length > 0 ? (
-                product.images.map((image, index) => (
-                  <ProductImage key={index} src={image.url} alt={product.name} />
-                ))
-              ) : (
-                <p>No images</p>
-              )}
+              <div style={containerStyle}>
+                <ImageSlider imageUrls={product.imageUrls} cardHeight="300px" />
+              </div>
+              {/* <Slider {...sliderSettings}>
+                {product.imageUrls && product.imageUrls.length > 0 ? (
+                  product.imageUrls.map((imageUrl, index) => (
+                    <div key={index}>
+                      <ProductImage src={imageUrl} alt={product.name} />
+                    </div>
+                  ))
+                ) : (
+                  <p key="no-image">No images</p>
+                )}
+              </Slider> */}
               <ProductDetailFlex>
                 <FavoriteButton
                   productId={product.id}
@@ -116,7 +155,7 @@ const ProductList = ({ user, token }) => {
           );
         })
       ) : (
-        <p>No items found</p>
+        <p key="no-items">No items found</p>
       )}
     </ProductGrid>
   );
