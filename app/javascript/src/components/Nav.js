@@ -107,7 +107,7 @@ const Nav = () => {
                 <Link to="/login">Login</Link>
               </NavItem>
               <NavItem onClick={() => setIsDropdownOpen(false)}>
-                <Link to="/signup">Sign up</Link>
+                <Link to="/signup/sign_up">Sign up</Link>
               </NavItem>
             </>
           ) :

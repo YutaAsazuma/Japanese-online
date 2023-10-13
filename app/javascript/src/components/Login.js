@@ -37,11 +37,6 @@ const Login = () => {
         if (receivedData.user) {
           navigate(from, { replace: true });
           handleLogin(receivedData);
-          // if (receivedData) {
-          //   setUser(receivedData.user);
-          // } else {
-          //   console.error('User is undefined', receivedData);
-          // }
         } else {
           setError("Incorrect credentials.");
         }
