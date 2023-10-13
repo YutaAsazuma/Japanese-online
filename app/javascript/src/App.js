@@ -6,6 +6,7 @@ import ProductList from "./components/ProductsList";
 import UserContext from "./UserContext";
 import Login from "./components/Login";
 import Homepage from "./components/Homepage";
+import SignUp from "./components/SignUp";
 import AdminPost from "./components/AdminPost";
 import FavoritesList from "./components/FavoritesList";
 import './App.css'
@@ -69,6 +70,7 @@ const App = () => {
             <Route path="/types/:id/show_products" element={<ProductList user={user} token={token}/>} />
             <Route path="/api/v1/favorites" element={<FavoritesList token={token} />}/>
             <Route path="/login" element={<Login />}/>
+            <Route path="/signup/sign_up" element={<SignUp />}/>
             <Route path="/api/v1/products/new" element={<AdminRoute><AdminPost /></AdminRoute>}/>
           </Routes>
         </div>
