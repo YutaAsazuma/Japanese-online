@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
 import FavoriteButton from "./FavoriteButton";
-// import Slider from "react-slick";
 import ImageSlider from "./ImageSlider";
 
 axios.defaults.withCredentials = true;
@@ -41,12 +40,6 @@ const ProductCard = styled.div`
     flex: 1 1 calc(25% - 2rem);
   }
 `;
-
-// const ProductImage = styled.img`
-//   max-width: 100%;
-//   height: auto;
-//   border-radius: 5px;
-// `;
 
 const ProductDetailFlex = styled.div`
   display: flex;
@@ -100,10 +93,6 @@ const ProductList = ({ user, token }) => {
 
             const imageUrls =
               product.images.map( (image) => {
-                // const imageUrlResponse = await fetchImageFromServer(image);
-                // const imageUrl = imageUrlResponse.data.url;
-                // console.log("Image URL:", imageUrl);
-                // return imageUrl;
                 return image.url;
               });
             console.log("Product:", product.name, "Image URLs:", imageUrls);
@@ -130,17 +119,6 @@ const ProductList = ({ user, token }) => {
               <div style={containerStyle}>
                 <ImageSlider imageUrls={product.imageUrls} cardHeight="300px" />
               </div>
-              {/* <Slider {...sliderSettings}>
-                {product.imageUrls && product.imageUrls.length > 0 ? (
-                  product.imageUrls.map((imageUrl, index) => (
-                    <div key={index}>
-                      <ProductImage src={imageUrl} alt={product.name} />
-                    </div>
-                  ))
-                ) : (
-                  <p key="no-image">No images</p>
-                )}
-              </Slider> */}
               <ProductDetailFlex>
                 <FavoriteButton
                   productId={product.id}

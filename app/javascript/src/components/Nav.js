@@ -2,7 +2,6 @@ import React, { useState, useContext }  from 'react'
 import UserContext from "../UserContext";
 import { Link } from "react-router-dom";
 import styled, { css } from 'styled-components';
-import './GrobalStyles.css'
 
 const Navbar = styled.nav`
   position: relative;

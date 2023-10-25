@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import { styled } from 'styled-components';
+import './TypeList.css'
 
 axios.defaults.withCredentials = true;
 
@@ -21,8 +21,7 @@ function TypeList() {
 
   return (
     <div>
-      <h1>Discover items</h1>
-      <ul>
+      <ul className="types-list-style">
         {types.map((type, index) => (
           <li key={index}>
             <Link to={`/types/${type.id}/show_products`}>{type.name}</Link>
