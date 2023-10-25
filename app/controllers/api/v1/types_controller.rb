@@ -61,7 +61,7 @@ class Api::V1::TypesController < ApplicationController
   end
 
   def type_params
-    params.require(:type).permit(:name)
+    params.require(:type).permit(:name, :image)
   end
 
   def handle_exception(e)
