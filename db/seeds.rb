@@ -6,10 +6,19 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Type.create(name: "Tableware")
-Type.create(name: "Knives")
-Type.create(name: "Cosmetic")
-Type.create(name: "Used clothes from Japan")
+type_images = {
+  "Knives" => "SP031119.jpg",
+  "Kimono" => "japan.png",
+  "Clothes" => "71kGZu3uDnL.jpg"
+}
+types = []
+
+type_images.each do |name, image_filename|
+  type = Type.new(name: name)
+  type.image = Rails.root.join("app/assets/images/#{image_filename}").open
+  type.save
+  types << type
+end
 
 Product.create(name: "Nihon Houchou", description: "sharp", price: 200, type_id: 13)
 User.find_or_create_by!(email: "asa14151415@gmail.com") do |user|

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './TypeList.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 axios.defaults.withCredentials = true;
 
@@ -20,11 +21,13 @@ function TypeList() {
   }, []);
 
   return (
-    <div>
-      <ul className="types-list-style">
+    <div className='container'>
+      <ul className="types-list-style row">
         {types.map((type, index) => (
-          <li key={index}>
-            <Link to={`/types/${type.id}/show_products`}>{type.name}</Link>
+          <li key={index} className='type col-4' style={{ textAlign: 'center' }}>
+            <Link to={`/types/${type.id}/show_products`}>
+              <img src={type.image.url} alt={type.name || "Type Image"}/>
+            </Link>
           </li>
         ))}
       </ul>

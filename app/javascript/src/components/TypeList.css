@@ -3,3 +3,9 @@
   justify-content: space-evenly;
   list-style: none;
 }
+
+.type img {
+  width: 50%;
+  height: 83%;
+  border-radius: 50%;
+}
