@@ -1,0 +1,11 @@
+.navbar {
+  overflow: hidden;
+  background-color: #fff;
+  transition: all .2s ease-out 0s;
+  top: 0px;
+}
+
+.navbar.hidden {
+  opacity: 0;
+  pointer-events: none; /* To prevent interaction when hidden */
+}

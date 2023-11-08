@@ -28,11 +28,9 @@ class Api::V1::ProductsController < ApplicationController
 
   def create
     product = Product.new(product_params)
-    # product.images = params[:images]
     if product.save
       render json: product, status: :created
     else
-      Rails.logger.error("Product save failed with errors: #{product.errors.full_messages.join(', ')}")
       render json: { errors: product.errors.full_messages }, status: 422
     end
   end

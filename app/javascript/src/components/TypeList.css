@@ -5,7 +5,10 @@
 }
 
 .type img {
-  width: 50%;
-  height: 83%;
-  border-radius: 50%;
+  width: 60%;
+  height: 97%;
+  opacity: 0.9;
+  &:hover {
+    opacity: 1;
+  }
 }

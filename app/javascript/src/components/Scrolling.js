@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Scrolling = () => {
+export const ScrollingTop = () => {
   const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
@@ -13,4 +13,4 @@ const Scrolling = () => {
   return scrollTop;
 }
 
-export default Scrolling;
+export default ScrollingTop;

@@ -1,0 +1,49 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);;
+  grid-gap: 1rem;
+  margin: 0 auto;
+  max-width: 660px;
+}
+
+.product-card {
+  position: relative;
+  border: 1px solid #e1e1e1;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-gap: 2rem;
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-gap: 11rem;
+    max-width: 972px;
+  }
+}
+
+.product-flex {
+  display: flex;
+}
+
+.product-description {
+  color: rgb(246, 240, 240);
+}
+
+.product-item {
+  width: 100%;
+}
+
+.product-description {
+  /* No specific positioning needed here if they are sequential in the DOM */
+  color: #f6f0f0;
+  /* Ensure there's some space between the card and the description */
+  margin-top: 1rem;
+}
