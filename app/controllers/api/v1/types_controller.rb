@@ -32,7 +32,6 @@ class Api::V1::TypesController < ApplicationController
     render json: @products.map { |product| product_with_favorites(product, current_user) }
   rescue => e
     render json: { error: e.message }, status: :internal_server_error
-    # @product = Product.find(params[:id])
   end
 
   private

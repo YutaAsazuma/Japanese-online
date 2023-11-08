@@ -3,17 +3,17 @@ import BackgroundVideo from "./BackgroundVideo";
 import Nav from "./Nav"
 import './Homepage.css'
 import TypeList from './TypeList';
-import Scrolling from './Scrolling';
+import ScrollingTop from './Scrolling';
 
 const Homepage = () => {
-  const scrollTop = Scrolling();
+  const scrollTop = ScrollingTop();
 
   let topPosition = 100;
 
-  if (scrollTop <= 40) {
+  if (scrollTop <= 18) {
     topPosition -= scrollTop;
   } else {
-    topPosition = 40;
+    topPosition = 18;
   }
 
   let opacityValue = 1 - (scrollTop / 500);
@@ -26,10 +26,12 @@ const Homepage = () => {
         <BackgroundVideo style={{ opacity: opacityValue }}/>
         <div className="content-overlayed">
           <Nav />
-          <h1></h1>
         </div>
       </div>
       <div className="type-list-overlay" style={{ top: `${topPosition}vh` }}>
+        <div style={{textAlign: "center", padding: "30px"}}>
+          <h3>Find items</h3>
+        </div>
         <TypeList />
       </div>
     </main>

@@ -1,20 +1,28 @@
-import React, { useState, useContext }  from 'react'
+import React, { useState, useEffect, useContext, useCallback }  from 'react'
 import UserContext from "../UserContext";
 import { Link } from "react-router-dom";
 import styled, { css } from 'styled-components';
+import './Nav.css'
 
 const Navbar = styled.nav`
-  position: relative;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-between;
+  height: 81px;
+  pointer-events: auto;
+  padding: 0 4.9rem 0 10rem;
+  position: ${({ isHomepageTop }) => (isHomepageTop ? 'relative' : 'fixed')};
   z-index: 2;
+  width: 100%;
+  background-color: white;
+  transition: top 0.2s ease-in-out;
+  transform: translateY(${({ isNavHidden }) => (isNavHidden ? '-100%' : '0')});
 `;
 
 const Logo = styled.div`
   font-weight: bold;
   font-size: 23px;
-  color: #ffffff;
+  color: black;
   letter-spacing: 3px;
 `;
 
@@ -52,7 +60,7 @@ const NavItems = styled.ul`
 `;
 
 const NavItem = styled.li`
-  font-size: 13px;
+  font-size: 18px;
   font-weight: bold;
   padding: 5px;
   opacity: 0.7;
@@ -83,48 +91,75 @@ const DropdownButton = styled.button`
 const Nav = () => {
   const { user, handleLogout } = useContext(UserContext);
   const [ isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [y, setY] = useState(document.scrollingElement.scrollHeight);
+  const [isNavHidden, setIsNavHidden] = useState(false);
+  const [isHomepageTop, setIsHomepageTop] = useState(true);
+
+  const handleScroll = useCallback((e) => {
+    if (window.scrollY === 0) {
+      setIsHomepageTop(true);
+    } else if (y > window.scrollY) {
+      setIsNavHidden(false);
+      setIsHomepageTop(false);
+      console.log(y);
+    } else if (y < window.scrollY) {
+      setIsNavHidden(true);
+      setIsHomepageTop(false);
+      console.log("scrolling down");
+    }
+    setY(window.scrollY)
+  }, [y]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   return (
-    <Navbar className='semi-transparent-background'>
-      <Logo>
-        NihhonLine
-      </Logo>
-      <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-        {isDropdownOpen ? 'X' : '☰'}
-      </DropdownButton>
-      <NavItems open={isDropdownOpen}>
-        <NavItem onClick={() => setIsDropdownOpen(false)}>
-          <Link to='/api/v1/favorites'>Favorite</Link>
-        </NavItem>
-        <NavItem onClick={() => setIsDropdownOpen(false)}>
-          <Link to="/">Cart</Link>
-        </NavItem>
-        {!user ?
-          (
-            <>
-              <NavItem onClick={() => { setIsDropdownOpen(false); }}>
-                <Link to="/login">Login</Link>
-              </NavItem>
+      <Navbar isNavHidden={isNavHidden} isHomepageTop={isHomepageTop}>
+        <Logo>
+          NihhonLine
+        </Logo>
+        <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          {isDropdownOpen ? 'X' : '☰'}
+        </DropdownButton>
+        <div>
+          <NavItems open={isDropdownOpen}>
+            <NavItem onClick={() => setIsDropdownOpen(false)}>
+              <Link to='/api/v1/favorites'>Favorite</Link>
+            </NavItem>
+            <NavItem onClick={() => setIsDropdownOpen(false)}>
+              <Link to="/">Cart</Link>
+            </NavItem>
+            {!user ?
+              (
+                <>
+                  <NavItem onClick={() => { setIsDropdownOpen(false); }}>
+                    <Link to="/login">Login</Link>
+                  </NavItem>
+                  <NavItem onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/signup/sign_up">Sign up</Link>
+                  </NavItem>
+                </>
+              ) :
+                (
+                  <NavItem onClick={() => {
+                    handleLogout();
+                    setIsDropdownOpen(false);
+                  }}>
+                    <Link to="/">Logout</Link>
+                  </NavItem>
+                )}
+                {user && user.admin && (
               <NavItem onClick={() => setIsDropdownOpen(false)}>
-                <Link to="/signup/sign_up">Sign up</Link>
-              </NavItem>
-            </>
-          ) :
-            (
-              <NavItem onClick={() => {
-                handleLogout();
-                setIsDropdownOpen(false);
-              }}>
-                <Link to="/">Logout</Link>
-              </NavItem>
+                <Link to="/api/v1/products/new">Admin post</Link>
+            </NavItem>
             )}
-            {user && user.admin && (
-          <NavItem onClick={() => setIsDropdownOpen(false)}>
-            <Link to="/api/v1/products/new">Admin post</Link>
-        </NavItem>
-        )}
-      </NavItems>
-    </Navbar>
+          </NavItems>
+        </div>
+      </Navbar>
   )
 }
 

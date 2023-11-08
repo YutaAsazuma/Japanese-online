@@ -22,12 +22,6 @@ class Api::V1::FavoritesController < ApplicationController
   def destroy
     product = Product.find(params[:product_id])
     favorite = current_user.favorites.find_by(product: product)
-    # unless @favorite
-    #   render json: { success: false, message: "Favorite not found" }, status: :not_found
-    #   return
-    # end
-
-    # @product = favorite.product
     if favorite
       favorite.destroy
       render json: { success: true, message: "Product removed from favorites" }

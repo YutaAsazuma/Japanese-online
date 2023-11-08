@@ -9,12 +9,11 @@ class Users::SessionsController < Devise::SessionsController
 
     if user && user.valid_password?(params[:password])
       jwt_token = generate_jwt_for(user)
-      Rails.logger.info("Generated Token: #{jwt_token}")
       cookies.signed[:jwt] = {
         value: jwt_token,
         httponly: true,
         secure: Rails.env.production?,
-        samesite: 'None',
+        samesite: 'strict',
         domain: 'https://localhost:3000'
       }
       render json: {
@@ -29,7 +28,7 @@ class Users::SessionsController < Devise::SessionsController
         token: jwt_token
       }, status: :ok
     else
-      render json: { error: 'Invalid Email or Password' }, status: :unauthorized
+      render json: { error: 'Invalid credentials"' }, status: :unauthorized
     end
   end
 
@@ -47,7 +46,7 @@ class Users::SessionsController < Devise::SessionsController
       httponly: true,
       secure: Rails.env.production?,
       same_site: :strict,
-      expires: 3.hour.from_now
+      expires: 3.hour.from_now.exp
     }
 
     render json: {

@@ -62,4 +62,6 @@ Rails.application.configure do
 
   config.force_ssl = true
   # config.ssl_options = { key: "certs/localhost.key", cert: "certs/localhost.crt" }
+  config.middleware.use ActionDispatch::Cookies
+  config.middleware.use ActionDispatch::Session::CookieStore
 end

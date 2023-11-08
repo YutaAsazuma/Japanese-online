@@ -22,7 +22,7 @@ const FavoriteButton = ({ productId, favoriteId, isFavorited, token }) => {
 
   const toggleFavorited = () => {
     if(favorited && favoriteId !== null){
-      axios.delete(`/api/v1/products/${productId}/favorites/${favoriteId}`)
+      axios.delete(`/api/v1/products/${productId}/favorites/${userFavoritedId}`)
       .then(resp => {
         setFavorited(false);
         setUserFavoritedId(null);
