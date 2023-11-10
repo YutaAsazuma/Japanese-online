@@ -14,8 +14,8 @@ const Navbar = styled.nav`
   position: ${({ isHomepageTop }) => (isHomepageTop ? 'relative' : 'fixed')};
   z-index: 2;
   width: 100%;
-  background-color: white;
-  transition: top 0.2s ease-in-out;
+  background-color: ${({ backgroundColor }) => backgroundColor || 'none'};
+  transition: transform 0.2s ease, top 0.5s ease;
   transform: translateY(${({ isNavHidden }) => (isNavHidden ? '-100%' : '0')});
 `;
 
@@ -88,7 +88,7 @@ const DropdownButton = styled.button`
 
 
 
-const Nav = () => {
+const Nav = ({backgroundColor}) => {
   const { user, handleLogout } = useContext(UserContext);
   const [ isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [y, setY] = useState(document.scrollingElement.scrollHeight);
@@ -118,7 +118,7 @@ const Nav = () => {
   }, [handleScroll]);
 
   return (
-      <Navbar isNavHidden={isNavHidden} isHomepageTop={isHomepageTop}>
+      <Navbar isNavHidden={isNavHidden} isHomepageTop={isHomepageTop} backgroundColor={backgroundColor}>
         <Logo>
           NihhonLine
         </Logo>

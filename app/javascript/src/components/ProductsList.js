@@ -78,7 +78,7 @@ const ProductList = ({ user, token }) => {
 
   return (
     <div>
-      <Nav style={{color: "white"}}/>
+      <Nav backgroundColor="white"/>
       <div style={{backgroundColor: "black"}}>
         <div className="container" style={{ margin: "0 auto", padding: "23px" }}>
           <div className="product-grid">
