@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
 import FavoriteButton from "./FavoriteButton";
 import ImageSlider from "./ImageSlider";
@@ -13,7 +13,7 @@ const token = document.querySelector('meta[name="csrf-token"]').content;
 axios.defaults.headers.common['X-CSRF-Token'] = token;
 
 const ProductList = ({ user, token }) => {
-  let { id } = useParams();
+  let { typeId } = useParams();
   const [products, setProducts] = useState([]);
 
   const containerStyle = {
@@ -29,7 +29,7 @@ const ProductList = ({ user, token }) => {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }
 
-        const resp = await axios.get(`/api/v1/types/${id}/show_products`, {
+        const resp = await axios.get(`/api/v1/types/${typeId}/show_products`, {
           withCredentials: true,
         });
 
@@ -65,7 +65,7 @@ const ProductList = ({ user, token }) => {
     };
 
     fetchProducts();
-  }, [id, user, token]);
+  }, [typeId, user, token]);
 
   useEffect(() => {
     AdjustPaddingBottom();
@@ -87,26 +87,28 @@ const ProductList = ({ user, token }) => {
                 const favoriteId = product.is_favorited ? product.favorite_id : null;
 
                 return (
-                  <div className="product-item" key={product.id} style={{transform: index % 2 === 1 ? 'translateY(50%)' : 'null'}}>
-                    <div className="product-card">
-                      <div style={containerStyle}>
-                        <ImageSlider imageUrls={product.imageUrls} cardHeight="300px" />
+                  <Link to={`/products/${product.id}`}>
+                    <div className="product-item" key={product.id} style={{transform: index % 2 === 1 ? 'translateY(50%)' : 'null'}}>
+                      <div className="product-card">
+                        <div style={containerStyle}>
+                          <ImageSlider imageUrls={product.imageUrls} cardHeight="300px" />
+                        </div>
+                        <div className="product-flex">
+                          <FavoriteButton
+                            productId={product.id}
+                            favoriteId={favoriteId}
+                            isFavorited={product.is_favorited}
+                            user={user}
+                            token={token}
+                          />
+                        </div>
                       </div>
-                      <div className="product-flex">
-                        <FavoriteButton
-                          productId={product.id}
-                          favoriteId={favoriteId}
-                          isFavorited={product.is_favorited}
-                          user={user}
-                          token={token}
-                        />
+                      <div className="product-description">
+                        <h3>{product.description}</h3>
+                        <h3>{product.price}€</h3>
                       </div>
                     </div>
-                    <div className="product-description">
-                      <h3>{product.description}</h3>
-                      <h3>{product.price}€</h3>
-                    </div>
-                  </div>
+                  </Link >
                 );
               })
             ) : (

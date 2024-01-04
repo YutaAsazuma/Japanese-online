@@ -120,7 +120,7 @@ const Nav = ({backgroundColor}) => {
   return (
       <Navbar isNavHidden={isNavHidden} isHomepageTop={isHomepageTop} backgroundColor={backgroundColor}>
         <Logo>
-          NihhonLine
+          <Link to="/">NihhonLine</Link>
         </Logo>
         <DropdownButton onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
           {isDropdownOpen ? 'X' : '☰'}

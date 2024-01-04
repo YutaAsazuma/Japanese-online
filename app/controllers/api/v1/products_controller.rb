@@ -12,12 +12,14 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def show
+    product = Product.find(params[:id])
+
     render json: {
       product: {
-        id: @product.id,
-        name: @product.name,
-        price: @product.price,
-        images: @product.images.map(&:url)
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        images: product.images.map(&:url)
       }
     }
   end
