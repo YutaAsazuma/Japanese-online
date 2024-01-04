@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp";
 import AdminPost from "./components/AdminPost";
 import FavoritesList from "./components/FavoritesList";
 import './App.css'
+import ShowProduct from "./components/ShowProduct";
 
 
 
@@ -67,7 +68,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/types" element={<TypeList />} />
-            <Route path="/types/:id/show_products" element={<ProductList user={user} token={token}/>} />
+            <Route path="/types/:typeId/show_products" element={<ProductList user={user} token={token}/>} />
+            <Route path="/products/:productId" element={<ShowProduct  user={user} token={token} />} />
             <Route path="/api/v1/favorites" element={<FavoritesList token={token} />}/>
             <Route path="/login" element={<Login />}/>
             <Route path="/signup/sign_up" element={<SignUp />}/>
